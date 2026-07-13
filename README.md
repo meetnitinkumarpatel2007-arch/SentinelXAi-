@@ -33,7 +33,7 @@ Built for hackathon innovation by:
 
 ### 1. Clone the project
 ```powershell
-git clone [https://github.com/meetnitinkumarpatel2007-arch/SentinelXAi.git](https://github.com/meetnitinkumarpatel2007-arch/SentinelXAi.git)
+git clone [https://github.com/meetnitinkumarpatel2007-arch/SentinelXAi-.git](https://github.com/meetnitinkumarpatel2007-arch/SentinelXAi-.git)
 cd SentinelXAi
 
 ```
