@@ -38,6 +38,11 @@ cd SentinelXAi
 
 ```
 ### 2. Configure environment variables
+For Mac/Linux:
+```bash
+cp .env.example .env
+
+For windows:
 ```powershell
 copy .env.example .env
 
