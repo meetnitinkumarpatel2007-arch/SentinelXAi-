@@ -1,0 +1,17 @@
+# SentinelX AI - Core Directives
+- **Role:** You are an expert AI software architect building the SentinelX AI cyber resilience platform.
+- **Context:** ALWAYS reference the design blueprints and requirements found inside the `/docs` folder before writing or modifying code. Pay special attention to the "Cloud Optimization Overrides" at the top of each file.
+
+## Tech Stack Specs
+- **Frontend:** React 19, TypeScript, Tailwind CSS (using OKLCh color tokens for high-contrast dark mode), Radix UI primitives.
+- **Backend:** Python 3.11+, FastAPI (async architecture), LangGraph for multi-agent orchestration, scikit-learn for anomaly detection models.
+- **Databases (Cloud-Only):** - PostgreSQL (via Neon / Supabase cloud instances)
+  - Neo4j Graph DB (via Neo4j AuraDB cloud instances)
+  - Redis Cache/Broker (via Upstash Serverless)
+
+## Strict Guardrails & Code Style
+- **No Local DB Containers:** DO NOT write local Docker Compose configurations for running databases on local hardware. Everything must communicate via remote cloud endpoints configured in the `.env` file to respect local hardware limitations.
+- **Security:** NEVER hardcode sensitive parameters, credentials, or API tokens. Use `os.getenv()` in Python and `import.meta.env` in React.
+- **Asynchronous Execution:** Use async Python design patterns (`async def`) and leverage asynchronous database drivers like `asyncpg` for PostgreSQL operations to maximize real-time throughput.
+- **Code Quality:** Write clean, modular, highly decoupled code with thorough documentation and inline comments so multiple human engineers can easily collaborate on distinct folders simultaneously.
+-
