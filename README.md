@@ -50,8 +50,9 @@ copy .env.example .env
 Edit .env and add your cloud database URLs, API keys, and runtime settings.
 ### 3. Dataset Provisioning (Required for ML Engine)
 Because the AI training matrix (network_traffic.csv) exceeds GitHub's 100MB file limit, it is hosted externally on Google Drive.
- 1. Download the dataset from this secure link: **network_traffic.csv (Google Drive)**
- 2. Place the downloaded file into the following directory: backend/data/network_traffic.csv
+ 1. Download the dataset from this secure link: **network_traffic.csv (Google Drive)** ----
+ 2. https://drive.google.com/file/d/1C_MR6V2dS8kjWBvKaK52KCuVkylmMnKh/view?usp=drivesdk
+ 3. Place the downloaded file into the following directory: backend/data/network_traffic.csv
 ### 4. Backend setup
 ```powershell
 cd backend
