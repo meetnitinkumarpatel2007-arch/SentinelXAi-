@@ -78,7 +78,8 @@ python -m uvicorn app.main:app --reload --port 8000
 
 ```
 [#note if causing any modul error after activation of venv type
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt 
+then run
 python -m uvicorn app.main:app --reload --port 8000]
 
 *API docs:* http://localhost:8000/docs
