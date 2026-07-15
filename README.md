@@ -64,6 +64,7 @@ pip install -r requirements.txt
 ### 5. Frontend setup
 ```powershell
 cd ..\frontend
+cmd
 npm install
 
 ```
@@ -76,10 +77,15 @@ cd backend
 python -m uvicorn app.main:app --reload --port 8000
 
 ```
+[#note if causing any modul error after activation of venv type
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --port 8000]
+
 *API docs:* http://localhost:8000/docs
 **Terminal 2 — Frontend SOC Dashboard**
 ```powershell
 cd frontend
+cmd
 npm run dev
 
 ```
@@ -92,6 +98,7 @@ cd app
 python network_simulator.py
 
 ```
+[note - if found any module error when .venv is active type python -m pip install ( module name) and re run network simulator python file]
 ## 📊 Model Performance & Accuracy Testing
 To verify the IsolationForest AI model's accuracy against the baseline 78-dimension network dataset:
 ```powershell
