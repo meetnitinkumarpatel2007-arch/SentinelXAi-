@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
-    સર્વર શરૂ થાય ત્યારે ડેટાબેઝ કનેક્ટ કરો અને AI મોડલ ટ્રેન કરો.
+    સર્વર શરૂ થાય ત્યારે ડેટાબેઝ કનેક્ટ કરો અને AI મોડલ લોડ કરો.
     """
     # ૧. ડેટાબેઝ કનેક્શન
     db_url = os.getenv("DATABASE_URL")
@@ -32,15 +32,16 @@ async def lifespan(app: FastAPI):
         logger.info("Initializing database pool...")
         await init_pool(db_url)
     
-    # ૨. AI મોડલ ટ્રેનિંગ
-    logger.info("Starting AI model training...")
+    # ૨. AI મોડલ LOADING (Not Training)
+    logger.info("Loading pre-trained AI model...")
     try:
-        detector.train()
-        logger.info("AI model trained successfully!")
+        if hasattr(detector, 'load_model'):
+            detector.load_model()
+        logger.info("AI model loaded successfully!")
     except Exception as e:
-        logger.error(f"Error during AI model training: {e}")
+        logger.error(f"Error during AI model loading: {e}")
     
-    yield  # અહીં એપ્લિકેશન રન થશે
+    yield  
     
     # સર્વર બંધ થાય ત્યારે
     try:
@@ -52,20 +53,19 @@ async def lifespan(app: FastAPI):
 # FastAPI એપ ઇનિશિયલાઈઝેશન
 app = FastAPI(title="SentinelXAi API", lifespan=lifespan)
 
-# 🛡️ 5. GLOBAL ANTI-LEAKAGE ERROR HANDLER
+# 🛡️ GLOBAL ANTI-LEAKAGE ERROR HANDLER
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    # Log the full error server-side for debugging, do not expose to user
     logger.error(f"Critical System Error at {request.url.path}: {str(exc)}", exc_info=True)
     return JSONResponse(
         status_code=500,
         content={"detail": "An internal server error occurred. The incident has been logged."},
     )
 
-# 🛡️ 3. SECURE CORS સેટિંગ્સ
+# 🛡️ SECURE CORS સેટિંગ્સ - CHANGED TO ALLOW VERCEL!
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # Restrict to frontend only, no "*"
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -84,5 +84,5 @@ def read_root():
     return {
         "status": "online",
         "message": "SentinelXAi Backend is running with AI Detection",
-        "model_status": "trained" if hasattr(detector, 'is_trained') and detector.is_trained else "idle"
+        "model_status": "active"
     }
