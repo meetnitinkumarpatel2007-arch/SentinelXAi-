@@ -5,6 +5,17 @@ export const AnalystDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [isScanning, setIsScanning] = useState(true);
 
+export const AnalystDashboard = () => {
+  const [alerts, setAlerts] = useState<any[]>([]);
+  const [isScanning, setIsScanning] = useState(true);
+  
+  // 👉 PASTE IT RIGHT HERE:
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+
+  // Polls the FastAPI endpoint...
+  const fetchLiveAlerts = async () => {
+    
+
   // Polls the FastAPI endpoint for live database alerts
   const fetchLiveAlerts = async () => {
     try {
@@ -108,6 +119,62 @@ export const AnalystDashboard = () => {
   );
 };
 
+  return (
+    <div className="p-6 bg-[#0f111a] text-white min-h-screen font-sans">
+      
+      {/* Your Dashboard Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold">SOC Analyst Terminal</h1>
+        
+        {/* 🎬 WATCH DEMO BUTTON */}
+<button
+  onClick={() => setIsDemoOpen(true)}
+  className="px-4 py-2 text-xs font-mono uppercase tracking-widest text-green-400 bg-green-950/30 border border-green-500/50 rounded-md hover:bg-green-900/50 hover:text-green-300 transition-all shadow-[0_0_15px_rgba(34,197,94,0.15)] active:scale-95"
+>
+  ▶ Watch Live SOAR Mitigation
+</button>
+
+{/* ⬛ DARK GLASSMORPHISM VIDEO MODAL */}
+{isDemoOpen && (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
+    
+    {/* Modal Container */}
+    <div className="relative w-full max-w-5xl bg-slate-900 rounded-xl border border-slate-700 shadow-[0_0_50px_rgba(16,185,129,0.15)] overflow-hidden">
+      
+      {/* Top Header / Close Button */}
+      <div className="flex justify-between items-center p-3 bg-slate-950 border-b border-slate-800">
+        <span className="text-xs font-mono text-slate-400 tracking-widest uppercase">
+          SYS_PLAYBACK: Autonomous Mitigation Loop
+        </span>
+        <button
+          onClick={() => setIsDemoOpen(false)}
+          className="text-slate-400 hover:text-red-400 bg-slate-800/50 hover:bg-red-950/50 rounded px-3 py-1 text-xs font-mono transition-colors border border-transparent hover:border-red-900/50"
+        >
+          [ CLOSE ]
+        </button>
+      </div>
+
+      {/* The Actual Video Player */}
+      <div className="w-full aspect-video bg-black flex items-center justify-center">
+        <video 
+          src="/system-demo.mp4" 
+          controls 
+          autoPlay 
+          className="w-full h-full object-contain"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      
+    </div>
+  </div>
+)}
+
+
+      </div>
+
+      {/* The rest of your dashboard widgets and tables go here... */}
+      
 
 export const CisoDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
