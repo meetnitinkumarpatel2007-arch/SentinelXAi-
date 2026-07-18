@@ -1,25 +1,20 @@
 // frontend/src/pages/Dashboards.tsx
 import { useState, useEffect } from 'react';
 
+// 🌐 Automatically switch between your live Render API backend and your local server
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+
+// ==========================================
+// 📡 1. SOC ANALYST TERMINAL
+// ==========================================
 export const AnalystDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [isScanning, setIsScanning] = useState(true);
 
-export const AnalystDashboard = () => {
-  const [alerts, setAlerts] = useState<any[]>([]);
-  const [isScanning, setIsScanning] = useState(true);
-  
-  // 👉 PASTE IT RIGHT HERE:
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
-
-  // Polls the FastAPI endpoint...
-  const fetchLiveAlerts = async () => {
-    
-
-  // Polls the FastAPI endpoint for live database alerts
+  // Polls the backend engine for live database alerts
   const fetchLiveAlerts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/detector/alerts");
+      const response = await fetch(`${API_BASE_URL}/api/v1/detector/alerts`);
       const data = await response.json();
       if (data.alerts) {
         setAlerts(data.alerts);
@@ -41,25 +36,31 @@ export const AnalystDashboard = () => {
   }, [isScanning]);
 
   return (
-    <div className="p-8 bg-slate-950 text-green-400 min-h-screen font-mono">
+    <div className="p-8 bg-slate-950 text-green-400 min-h-screen font-mono relative">
+      
+      {/* Dashboard Header */}
       <div className="flex justify-between items-center mb-8 border-b border-green-800 pb-4">
         <div>
-          <h1 className="text-3xl font-bold">SOC Analyst Terminal</h1>
+          <h1 className="text-3xl font-bold text-white">SOC Analyst Terminal</h1>
           <p className="text-slate-400 mt-2">Monitoring Core Software Telemetry Stream (Simulated Loopback)...</p>
         </div>
         
-        <button 
-          onClick={() => setIsScanning(!isScanning)}
-          className={`font-bold py-2 px-4 rounded transition-colors ${
-            isScanning 
-              ? "bg-green-900/50 text-green-400 border border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.2)]" 
-              : "bg-slate-800 text-slate-400 border border-slate-700"
-          }`}
-        >
-          {isScanning ? "📡 Live Scan: ACTIVE" : "⏸ Live Scan: PAUSED"}
-        </button>
+        <div className="flex items-center gap-4">
+          {/* Scanning Toggle Button */}
+          <button 
+            onClick={() => setIsScanning(!isScanning)}
+            className={`font-bold py-2 px-4 rounded transition-colors ${
+              isScanning 
+                ? "bg-green-900/50 text-green-400 border border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.2)]" 
+                : "bg-slate-800 text-slate-400 border border-slate-700"
+            }`}
+          >
+            {isScanning ? "📡 Live Scan: ACTIVE" : "⏸ Live Scan: PAUSED"}
+          </button>
+        </div>
       </div>
 
+      {/* Main Threats Feed */}
       <div className="space-y-4">
         {alerts.length === 0 ? (
           <div className="p-4 border border-green-900 bg-black rounded text-green-700">
@@ -92,14 +93,12 @@ export const AnalystDashboard = () => {
                 <div className={`p-4 bg-black/50 border rounded ${alert.status === 'blocked' ? 'border-orange-800' : 'border-red-800'}`}>
                   <h3 className="text-gray-400 mb-1">MITRE ATT&CK Tactic</h3>
                   <p className={`font-bold ${alert.status === 'blocked' ? 'text-slate-500 line-through' : 'text-orange-400'}`}>
-                    {/* 🧠 DYNAMIC TACTIC RENDERING */}
                     {alert.mitre_tactic || "Lateral Movement"}
                   </p>
                 </div>
                 <div className={`p-4 bg-black/50 border rounded ${alert.status === 'blocked' ? 'border-orange-800' : 'border-red-800'}`}>
                   <h3 className="text-gray-400 mb-1">Technique</h3>
                   <p className={`font-bold ${alert.status === 'blocked' ? 'text-slate-500 line-through' : 'text-orange-400'}`}>
-                    {/* 🧠 DYNAMIC TECHNIQUE RENDERING */}
                     {alert.mitre_technique || "T1210: Exploitation of Remote Services"}
                   </p>
                 </div>
@@ -119,70 +118,16 @@ export const AnalystDashboard = () => {
   );
 };
 
-  return (
-    <div className="p-6 bg-[#0f111a] text-white min-h-screen font-sans">
-      
-      {/* Your Dashboard Header */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">SOC Analyst Terminal</h1>
-        
-        {/* 🎬 WATCH DEMO BUTTON */}
-<button
-  onClick={() => setIsDemoOpen(true)}
-  className="px-4 py-2 text-xs font-mono uppercase tracking-widest text-green-400 bg-green-950/30 border border-green-500/50 rounded-md hover:bg-green-900/50 hover:text-green-300 transition-all shadow-[0_0_15px_rgba(34,197,94,0.15)] active:scale-95"
->
-  ▶ Watch Live SOAR Mitigation
-</button>
-
-{/* ⬛ DARK GLASSMORPHISM VIDEO MODAL */}
-{isDemoOpen && (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-300">
-    
-    {/* Modal Container */}
-    <div className="relative w-full max-w-5xl bg-slate-900 rounded-xl border border-slate-700 shadow-[0_0_50px_rgba(16,185,129,0.15)] overflow-hidden">
-      
-      {/* Top Header / Close Button */}
-      <div className="flex justify-between items-center p-3 bg-slate-950 border-b border-slate-800">
-        <span className="text-xs font-mono text-slate-400 tracking-widest uppercase">
-          SYS_PLAYBACK: Autonomous Mitigation Loop
-        </span>
-        <button
-          onClick={() => setIsDemoOpen(false)}
-          className="text-slate-400 hover:text-red-400 bg-slate-800/50 hover:bg-red-950/50 rounded px-3 py-1 text-xs font-mono transition-colors border border-transparent hover:border-red-900/50"
-        >
-          [ CLOSE ]
-        </button>
-      </div>
-
-      {/* The Actual Video Player */}
-      <div className="w-full aspect-video bg-black flex items-center justify-center">
-        <video 
-          src="/system-demo.mp4" 
-          controls 
-          autoPlay 
-          className="w-full h-full object-contain"
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      
-    </div>
-  </div>
-)}
-
-
-      </div>
-
-      {/* The rest of your dashboard widgets and tables go here... */}
-      
-
+// ==========================================
+// 🎯 2. CISO COMMAND CENTER
+// ==========================================
 export const CisoDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   const fetchLiveAlerts = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/detector/alerts");
+      const response = await fetch(`${API_BASE_URL}/api/v1/detector/alerts`);
       const data = await response.json();
       if (data.alerts) setAlerts(data.alerts);
     } catch (error) {
@@ -202,7 +147,7 @@ export const CisoDashboard = () => {
 
   const handleThreatAction = async (alertId: string | number, actionStatus: string) => {
     try {
-      await fetch(`http://127.0.0.1:8000/api/v1/detector/alerts/${alertId}`, {
+      await fetch(`${API_BASE_URL}/api/v1/detector/alerts/${alertId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: actionStatus })
@@ -253,7 +198,6 @@ export const CisoDashboard = () => {
                       </span>
                     </div>
                     <p className={`text-lg font-bold ${isBlocked ? 'text-orange-400 line-through' : 'text-red-400'}`}>
-                      {/* 🧠 DYNAMIC TACTIC RENDERING FOR CISO */}
                       {alert.mitre_tactic || "Lateral Movement"} Detected (Confidence: {(alert.anomaly_score * 100).toFixed(1)}%)
                     </p>
                   </div>
@@ -288,14 +232,16 @@ export const CisoDashboard = () => {
     </div>
   );
 };
-  
 
+// ==========================================
+// 📊 3. EXECUTIVE SECURITY OVERVIEW (CEO)
+// ==========================================
 export const CeoDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   
   const fetchMetrics = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/v1/detector/alerts");
+      const response = await fetch(`${API_BASE_URL}/api/v1/detector/alerts`);
       const data = await response.json();
       if (data.alerts) setAlerts(data.alerts);
     } catch (error) {
@@ -364,7 +310,6 @@ export const CeoDashboard = () => {
               {alerts.slice(0, 5).map(alert => (
                 <tr key={alert.id} className="hover:bg-slate-800/50 transition-colors">
                   <td className="p-4 text-slate-400">{new Date(alert.created_at).toLocaleTimeString()}</td>
-                  {/* 🧠 DYNAMIC TACTIC RENDERING FOR CEO */}
                   <td className="p-4 text-white font-medium">{alert.mitre_tactic || "Unauthorized Access Attempt"}</td>
                   <td className="p-4 text-slate-300">{(alert.anomaly_score * 100).toFixed(1)}%</td>
                   <td className="p-4">
@@ -395,4 +340,4 @@ export const CeoDashboard = () => {
       </div>
     </div>
   );
-};                                          
+};
