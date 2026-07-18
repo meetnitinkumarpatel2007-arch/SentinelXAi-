@@ -10,7 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000
 export const AnalystDashboard = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
   const [isScanning, setIsScanning] = useState(true);
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
+  
 
   // Polls the backend engine for live database alerts
   const fetchLiveAlerts = async () => {
@@ -46,14 +46,6 @@ export const AnalystDashboard = () => {
           <p className="text-slate-400 mt-2">Monitoring Core Software Telemetry Stream (Simulated Loopback)...</p>
         </div>
         
-        <div className="flex items-center gap-4">
-          {/* 🎬 WATCH DEMO BUTTON */}
-          <button
-            onClick={() => setIsDemoOpen(true)}
-            className="px-4 py-2 text-xs font-mono uppercase tracking-widest text-green-400 bg-green-955/30 border border-green-500/50 rounded hover:bg-green-900/50 hover:text-green-300 transition-all shadow-[0_0_15px_rgba(34,197,94,0.15)] active:scale-95"
-          >
-            ▶ Watch Live SOAR Mitigation
-          </button>
 
           {/* Scanning Toggle Button */}
           <button 
