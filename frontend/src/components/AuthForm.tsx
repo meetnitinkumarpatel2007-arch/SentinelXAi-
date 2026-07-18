@@ -1,3 +1,4 @@
+// frontend/src/components/AuthForm.tsx
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,9 @@ export function AuthForm() {
   const [role, setRole] = useState<UserRole>("analyst");
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
+  
+  // 🎬 HACKATHON DEMO STATE
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -153,12 +157,74 @@ export function AuthForm() {
             {submitting ? "VERIFYING INTERCEPT PATH..." : mode === "login" ? "INITIALIZE SECURITY SESSION" : "PROVISION ACCOUNT ACCESS"}
           </Button>
         </form>
+
+        {/* ========================================= */}
+        {/* 🎬 HACKATHON DEMO SHORTCUT SECTION        */}
+        {/* ========================================= */}
+        <div className="mt-8 border-t border-slate-800/80 pt-6 text-center">
+          <p className="text-slate-500 text-[10px] mb-3 font-mono uppercase tracking-widest">
+            Hackathon Evaluation Mode
+          </p>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault(); 
+              setIsDemoOpen(true);
+            }}
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest text-green-400 bg-green-950/40 border border-green-500/30 rounded-md hover:bg-green-900/60 hover:text-green-300 hover:border-green-500/60 transition-all shadow-[0_0_15px_rgba(34,197,94,0.1)] active:scale-95"
+          >
+            ▶ Watch Live System Demo
+          </button>
+        </div>
       </div>
 
       {/* 🔒 Bottom System Environment Identity String */}
       <div className="absolute bottom-6 font-mono text-[10px] tracking-[0.2em] text-slate-400 z-10 uppercase shadow-black drop-shadow-md">
         SYS_STATUS: VERIFIED | DEPLOYMENT MODE: LOCAL LOOPBACK LINK
       </div>
+
+      {/* ========================================= */}
+      {/* ⬛ DARK GLASSMORPHISM VIDEO MODAL           */}
+      {/* ========================================= */}
+      {isDemoOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          
+          <div className="relative w-full max-w-5xl bg-slate-900 rounded-xl border border-slate-700 shadow-[0_0_50px_rgba(16,185,129,0.15)] overflow-hidden">
+            
+            {/* Modal Navigation Control Bar */}
+            <div className="flex justify-between items-center p-3 bg-slate-950 border-b border-slate-800">
+              <span className="text-xs font-mono text-slate-400 tracking-widest uppercase flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                </span>
+                SYS_PLAYBACK: Autonomous Mitigation Loop
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsDemoOpen(false)}
+                className="text-slate-400 hover:text-red-400 bg-slate-800/50 hover:bg-red-950/50 rounded px-3 py-1 text-xs font-mono transition-colors border border-transparent hover:border-red-900/50"
+              >
+                [ CLOSE ]
+              </button>
+            </div>
+
+            {/* Render Video Segment Container */}
+            <div className="w-full aspect-video bg-black flex items-center justify-center">
+              <video 
+                src="/system-demo.mp4" 
+                controls 
+                autoPlay 
+                className="w-full h-full object-contain"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
-};
+}
+            
