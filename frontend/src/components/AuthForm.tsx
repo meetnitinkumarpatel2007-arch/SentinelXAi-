@@ -1,4 +1,4 @@
-// frontend/src/components/AuthForm.tsx
+
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -180,11 +180,11 @@ export function AuthForm() {
 
       {/* 🔒 Bottom System Environment Identity String */}
       <div className="absolute bottom-6 font-mono text-[10px] tracking-[0.2em] text-slate-400 z-10 uppercase shadow-black drop-shadow-md">
-        SYS_STATUS: VERIFIED | DEPLOYMENT MODE: LOCAL LOOPBACK LINK
+        SYS_STATUS: VERIFIED | DEPLOYMENT MODE: CLOUD EDGE NODE
       </div>
 
       {/* ========================================= */}
-      {/* ⬛ DARK GLASSMORPHISM VIDEO MODAL           */}
+      {/* ⬛ GOOGLE DRIVE EMBED MODAL                 */}
       {/* ========================================= */}
       {isDemoOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/90 backdrop-blur-md p-4 animate-in fade-in duration-300">
@@ -209,16 +209,14 @@ export function AuthForm() {
               </button>
             </div>
 
-            {/* Render Video Segment Container */}
-            <div className="w-full aspect-video bg-black flex items-center justify-center">
-              <video 
-                src="/system-demo.mp4" 
-                controls 
-                autoPlay 
-                className="w-full h-full object-contain"
-              >
-                Your browser does not support the video tag.
-              </video>
+            {/* Google Drive Iframe Embed Container */}
+            <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+              <iframe 
+                src="https://drive.google.com/file/d/1ZTMOI6-makPZYwF0b4It39RFIesERbBf/preview" 
+                className="w-full h-full border-0 absolute inset-0"
+                allow="autoplay; fullscreen"
+                title="SentinelX AI Demo Video"
+              ></iframe>
             </div>
           </div>
         </div>
@@ -226,5 +224,4 @@ export function AuthForm() {
 
     </div>
   );
-}
-            
+    }
